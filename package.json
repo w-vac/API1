@@ -1,0 +1,17 @@
+{
+  "name": "api1",
+  "version": "1.0.0",
+  "description": "This is the API documentation and implementation for managing users in a company, built using **OpenAPI 3.0**. The API allows you to create, read, update, and delete users. It also supports the use of API keys for authentication.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
