@@ -1,29 +1,29 @@
 openapi: '3.0.0'
 info:
   version: '1.0.0'
-  title: 'Sample API'
-  description: Buy or rent spacecrafts
+  title: 'Company Users API'
+  description: Manage users in a company
 
 paths:
-  /spacecrafts/{spacecraftId}:
+  /users/{userId}:
     parameters:
-      - name: spacecraftId
-        description: The unique identifier of the spacecraft
+      - name: userId
+        description: The unique identifier of the user
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/SpacecraftId'
+          $ref: '#/components/schemas/UserId'
     get:
-      summary: Read a spacecraft
+      summary: Read a user
       responses:
         '200':
-          description: The spacecraft corresponding to the provided `spacecraftId`
+          description: The user corresponding to the provided `userId`
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Spacecraft'
+                $ref: '#/components/schemas/User'
         404:
-          description: No spacecraft found for the provided `spacecraftId`
+          description: No user found for the provided `userId`
           content:
             application/json:
               schema:
@@ -34,44 +34,128 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update an existing user
+      requestBody:
+        description: User data to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: The updated user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: No user found for the provided `userId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete a user
+      responses:
+        '204':
+          description: User deleted successfully
+        404:
+          description: No user found for the provided `userId`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users:
+    post:
+      summary: Create a new user
+      requestBody:
+        description: The new user to be created
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: The created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   schemas:
-    SpacecraftId:
-      description: The unique identifier of a spacecraft
+    UserId:
+      description: The unique identifier of a user
       type: string
-    Spacecraft:
+
+    User:
       type: object
       required:
         - id
         - name
-        - type
+        - email
+        - role
       properties:
         id:
-          $ref: '#/components/schemas/SpacecraftId'
+          $ref: '#/components/schemas/UserId'
         name:
           type: string
-        type:
+        email:
+          type: string
+          format: email
+        role:
           type: string
           enum:
-            - capsule
-            - probe
-            - satellite
-            - spaceplane
-            - station
+            - admin
+            - employee
+            - manager
         description:
           type: string
+
     Error:
       type: object
       required:
         - message
       properties:
         message:
-          description: A human readable error message
+          description: A human-readable error message
           type: string
+
   securitySchemes:
     ApiKey:
       type: apiKey
       in: header
       name: X-Api-Key
+
 security:
   - ApiKey: []
