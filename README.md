@@ -111,7 +111,7 @@ A user object contains the following fields:
 An error object contains the following field:
 
 - `message` (string): A human-readable error message.
-
+<!-- Removed for testing purposes
 ## Authentication
 
 This API requires an API key to access the endpoints. You must include the following header in all your requests:
@@ -119,6 +119,7 @@ This API requires an API key to access the endpoints. You must include the follo
 ```
 X-Api-Key: <your-api-key>
 ```
+-->
 
 ## How to Use
 
